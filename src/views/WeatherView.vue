@@ -75,7 +75,7 @@
       //Get the current weather icon using the API link
       iconUrl() {
         return this.weatherData
-          ? `http://api.openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
+          ? `https://api.openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
           : null;
       },
     },
@@ -95,7 +95,7 @@
           navigator.geolocation.getCurrentPosition(async (position) => {
             const { latitude, longitude } = position.coords;
             //API link to obtain the current weather based on the current location browser identified 
-            const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
             //await means wait for the fetchWeatherData method to complete before proceeding
             await this.fetchWeatherData(url);
           });
@@ -126,7 +126,7 @@
         
         try {
             // 1. 获取城市坐标
-            const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(this.city)}&limit=1&appid=${apikey}`;
+            const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(this.city)}&limit=1&appid=${apikey}`;
             const geoResponse = await axios.get(geoUrl);
             
             if (!geoResponse.data || geoResponse.data.length === 0) {
@@ -139,11 +139,6 @@
             const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}`;
             const weatherResponse = await axios.get(currentWeatherUrl);
             this.weatherData = weatherResponse.data;
-            
-            // 3. 获取小时预报
-            const hourlyUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apikey}`;
-            const hourlyResponse = await axios.get(hourlyUrl);
-            this.hourlyForecast = hourlyResponse.data.list.slice(0, 8); // 获取未来24小时预报（每3小时一个数据点）
             
         } catch (error) {
             console.error("Error fetching weather data:", error);
