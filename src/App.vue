@@ -8,7 +8,6 @@ import BHeader from './components/BHeader.vue'
   <header>
     <BHeader />
   </header>
-
   <main>
     <div class="container mt-4">
       <router-view></router-view>
